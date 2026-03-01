@@ -1,288 +1,134 @@
-# 🏡 Interactive Real Estate Visualization Platform
+# Interactive Real Estate Visualization Platform
 
-A modern real estate web application where users can:
+A full-stack project where users can:
+1. Login/Register
+2. View lands (fields)
+3. Click a land to view subdivided plots
+4. Click a plot to view a 3D visualization
 
-1. View lands (fields)
-2. Click a land to see subdivided plots
-3. Click a plot to view its **3D visualization**
+## Implemented Stack
 
-This is a **full-stack project** built using **React + Node.js + Maps + Three.js + Entire.io workflow**.
+### Frontend
+- React + Vite
+- React Router
+- Leaflet (with React Leaflet) for map polygon rendering
+- React Three Fiber + Drei + Three.js for 3D preview
 
----
+### Backend
+- Node.js + Express
+- MongoDB + Mongoose
+- JWT authentication
 
-# 🚀 Features
+## Current Project Structure
 
-✅ User Authentication (JWT)  
-✅ View all Lands (Fields)  
-✅ Click Land → View subdivided plots  
-✅ Click Plot → View 3D model  
-✅ Map-based visualization using polygons  
-✅ Plot availability status (Available / Sold)  
-✅ 3D preview using Three.js  
-
----
-
-# 🧠 System Flow
-
-Login → Lands List → Click Land → View Plots → Click Plot → 3D Visualization
-
----
-
-# 🏗️ Tech Stack
-
-## Frontend
-- React.js
-- Tailwind CSS
-- Leaflet.js (Map rendering)
-- React Three Fiber / Three.js (3D rendering)
-
-## Backend
-- Node.js
-- Express.js
-
-## Database
-- MongoDB (Mongoose)
-
-## 3D Assets
-- `.glb` / `.gltf` models (Blender / Sketchfab)
-
----
-
-# 📁 Project Structure
-
-```
-realestate-app/
-│
-├── frontend/
-│ ├── src/
-│ │ ├── pages/
-│ │ │ ├── LandsPage.jsx
-│ │ │ ├── PlotsPage.jsx
-│ │ │ └── Plot3DPage.jsx
-│ │ │
-│ │ ├── components/
-│ │ │ ├── MapView.jsx
-│ │ │ ├── PlotCard.jsx
-│ │ │ └── ThreeViewer.jsx
-│ │
-│ └── package.json
-│
+```text
+real_estate/
 ├── backend/
-│ ├── models/
-│ │ ├── Land.js
-│ │ ├── Plot.js
-│ │ └── Plot3D.js
-│ │
-│ ├── routes/
-│ │ ├── lands.js
-│ │ ├── plots.js
-│ │ └── plot3d.js
-│ │
-│ ├── controllers/
-│ └── server.js
-│
+│   ├── config/db.js
+│   ├── controllers/
+│   │   ├── authController.js
+│   │   ├── landController.js
+│   │   ├── plotController.js
+│   │   └── plot3dController.js
+│   ├── middleware/authMiddleware.js
+│   ├── models/
+│   │   ├── land.js
+│   │   ├── plot.js
+│   │   ├── plot3d.js
+│   │   └── user.js
+│   ├── routes/
+│   │   ├── auth.js
+│   │   ├── lands.js
+│   │   ├── plots.js
+│   │   └── plot3d.js
+│   ├── scripts/seed.js
+│   ├── server.js
+│   └── .env.example
+├── frontend/
+│   ├── src/
+│   │   ├── api/
+│   │   ├── components/
+│   │   ├── context/
+│   │   └── pages/
+│   ├── index.html
+│   ├── vite.config.js
+│   └── .env.example
 └── README.md
 ```
 
----
+## API Endpoints
 
-# 🧾 Database Schema
+### Auth
+- `POST /api/auth/register`
+- `POST /api/auth/login`
 
-## 🟢 Land
-
-```json
-{
-  "name": "String",
-  "location": "String",
-  "total_area": "Number",
-  "coordinates": [ [lat, lng], ... ]
-}
-```
-
-## 🟡 Plot
-
-```json
-{
-  "land_id": "ObjectId",
-  "plot_number": "String",
-  "area": "Number",
-  "coordinates": [ [lat, lng], ... ],
-  "status": "available" | "sold"
-}
-```
-
-## 🔵 Plot3D
-
-```json
-{
-  "plot_id": "ObjectId",
-  "model_url": "String",
-  "dimensions": {
-    "width": "Number",
-    "length": "Number",
-    "height": "Number"
-  }
-}
-```
-
----
-
-# 🔌 API Endpoints
-
-## Lands
-
+### Lands
 - `GET /api/lands`
 - `GET /api/lands/:id`
 
-## Plots
-
+### Plots
 - `GET /api/lands/:landId/plots`
 - `GET /api/plots/:id`
 
-## Plot 3D
-
+### Plot 3D
 - `GET /api/plots/:id/3d`
 
----
+## Environment Setup
 
-# 🗺️ Map Visualization (Leaflet)
+### Backend `.env`
+Create `backend/.env` from `backend/.env.example`:
 
-Example:
-
-```js
-L.polygon(land.coordinates).addTo(map)
-
-L.polygon(plot.coordinates).on('click', () => {
-   openPlot(plot.id)
-})
+```env
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/real_estate
+JWT_SECRET=replace_with_secure_secret
 ```
 
-# 🧊 3D Plot Visualization (Three.js)
+### Frontend `.env`
+Create `frontend/.env` from `frontend/.env.example`:
 
-Example:
-
-```js
-const geometry = new THREE.BoxGeometry(width, height, depth)
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-const mesh = new THREE.Mesh(geometry, material)
-scene.add(mesh)
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
 ```
 
-3D Model path example:
-`/models/plot1.glb`
+## Run Locally
 
----
+### 1) Install dependencies
 
-# ⚙️ Installation Guide
+```bash
+cd backend && npm install
+cd ../frontend && npm install
+```
 
-1. **Clone Repository**
-   ```bash
-   git clone <your_repo_url>
-   cd realestate-app
-   ```
+### 2) Seed sample data
 
-2. **Backend Setup**
-   ```bash
-   cd backend
-   npm install
-   ```
+```bash
+cd backend
+npm run seed
+```
 
-   Create `.env` file:
-   ```env
-   PORT=5000
-   MONGO_URI=your_mongodb_connection_string
-   JWT_SECRET=your_secret_key
-   ```
+### 3) Start backend
 
-   Run backend:
-   ```bash
-   npm start
-   ```
+```bash
+cd backend
+npm run dev
+```
 
-3. **Frontend Setup**
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
+### 4) Start frontend
 
----
+```bash
+cd frontend
+npm run dev
+```
 
-# 🌍 Deployment
+Frontend runs on `http://localhost:5173`.
 
-- **Frontend**: Vercel / Netlify
-- **Backend**: Render / Railway
-- **Database**: MongoDB Atlas
+## User Flow
 
----
+Login/Register -> Lands list -> Click land polygon -> Plot list -> Click "View 3D"
 
-# 🧪 Development Phases
+## Notes
 
-🟢 **Phase 1 (MVP)**
-- Authentication
-- Lands listing
-- Plots listing
-
-🟡 **Phase 2**
-- Map visualization
-- Polygon drawing
-
-🔵 **Phase 3**
-- 3D plot rendering
-
-🔴 **Phase 4 (Advanced)**
-- House models
-- Virtual walkthrough
-- Booking system
-- Razorpay integration
-
----
-
-# 🧰 Entire.io Workflow (IMPORTANT)
-
-This project uses Entire.io to manage commits and generate explanations.
-
-- **Initialize Entire**: `entire init`
-- **Create Checkpoint**: `entire checkpoint "initial setup"`
-- **Explain Commit**: `entire explain --commit <commit_id>`
-- **Explain Checkpoint**: `entire explain --checkpoint <checkpoint_id>`
-
-**Recommended Workflow**:
-1. `git add .`
-2. `git commit -m "Added plots API"`
-3. `entire checkpoint "plots api completed"`
-
----
-
-# 🧠 Future Enhancements
-
-- Compass direction (North-facing plots)
-- Area measurement tool
-- Sunlight & shadow simulation
-- House construction preview
-- VR walkthrough of property
-
----
-
-# 👨‍💻 Author
-
-**Sandeep Bangaru**
-Full Stack Developer | Real Estate Tech Builder 🚀
-
----
-
-# ⭐ Final Vision
-
-Build a next-generation real estate platform where users can explore land, plots, and property in interactive 3D before buying.
-
----
-
-# 📢 Contribution
-
-Pull requests are welcome. For major changes, open an issue first.
-
----
-
-# 📄 License
-
-MIT License
+- API routes except auth are JWT-protected.
+- Seed script inserts one sample land, two plots, and 3D dimensions.
+- 3D page currently renders a dimension-based box model for each plot.
