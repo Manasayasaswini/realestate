@@ -1,0 +1,69 @@
+:root {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #13243f;
+  background: linear-gradient(180deg, #eef6ff 0%, #ffffff 50%, #e8f4ea 100%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.card {
+  background: #fff;
+  border: 1px solid #d8e5f4;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(18, 45, 79, 0.08);
+}
+
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #1f6feb;
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #e8f0ff;
+  color: #12315a;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid #c7d8ec;
+  border-radius: 10px;
+  padding: 0.7rem;
+  font-size: 0.95rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .grid-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
